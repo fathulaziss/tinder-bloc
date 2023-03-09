@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tinder/src/features/authentication/presentation/sign_up_screen.dart';
 import 'package:tinder/src/themes/app_style.dart';
 
 class AppScreen extends StatelessWidget {
@@ -9,10 +10,10 @@ class AppScreen extends StatelessWidget {
     return MaterialApp(
       title: 'Material App',
       theme: AppTheme.themeData,
-      home: Scaffold(
-        appBar: AppBar(title: const Text('Material App Bar')),
-        body: const Center(child: Text('Hellow world')),
-      ),
+      initialRoute: SingUpScreen.routeName,
+      routes: {
+        SingUpScreen.routeName: (context) => const SingUpScreen(),
+      },
     );
   }
 }
