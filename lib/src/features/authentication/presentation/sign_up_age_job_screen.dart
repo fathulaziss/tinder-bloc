@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tinder/src/features/authentication/presentation/sign_up_upload_photo_screen.dart';
 import 'package:tinder/src/themes/app_style.dart';
 import 'package:tinder/src/widgets/banner_widget.dart';
 import 'package:tinder/src/widgets/custom_button_widget.dart';
@@ -44,7 +45,15 @@ class _SingUpAgeJobScreenState extends State<SingUpAgeJobScreen> {
                 labelName: 'Age',
               ),
               AppSpace.vertical(117),
-              CustomButtonWidget(title: 'Continue Sign Up', onTap: () {})
+              CustomButtonWidget(
+                title: 'Continue Sign Up',
+                onTap: () {
+                  Navigator.pushNamed(
+                    context,
+                    SignUpUploadPhotoScreen.routeName,
+                  );
+                },
+              )
             ],
           ),
         ),
