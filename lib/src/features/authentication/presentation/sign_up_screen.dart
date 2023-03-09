@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tinder/src/features/authentication/presentation/sign_up_age_job_screen.dart';
 import 'package:tinder/src/themes/app_style.dart';
 import 'package:tinder/src/widgets/banner_widget.dart';
 import 'package:tinder/src/widgets/custom_button_widget.dart';
@@ -53,7 +54,12 @@ class _SingUpScreenState extends State<SingUpScreen> {
                 isObsecure: true,
               ),
               AppSpace.vertical(16),
-              CustomButtonWidget(title: 'Get Started', onTap: () {}),
+              CustomButtonWidget(
+                title: 'Get Started',
+                onTap: () {
+                  Navigator.pushNamed(context, SingUpAgeJobScreen.routeName);
+                },
+              ),
               AppSpace.vertical(20),
               CustomTextButton(title: 'Sign In to My Account', onPressed: () {})
             ],
