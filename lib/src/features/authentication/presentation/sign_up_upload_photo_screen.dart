@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tinder/src/features/likes/presentation/explore_people_screen.dart';
 import 'package:tinder/src/themes/app_font.dart';
 import 'package:tinder/src/themes/app_style.dart';
 import 'package:tinder/src/widgets/custom_button_widget.dart';
@@ -35,7 +36,12 @@ class SignUpUploadPhotoScreen extends StatelessWidget {
               AppSpace.vertical(240),
               CustomButtonWidget(title: 'Update My Profile', onTap: () {}),
               AppSpace.vertical(20),
-              CustomTextButton(title: 'Skip for Now', onPressed: () {})
+              CustomTextButton(
+                title: 'Skip for Now',
+                onPressed: () {
+                  Navigator.pushNamed(context, ExplorePeopleScreen.routeName);
+                },
+              )
             ],
           ),
         ),
