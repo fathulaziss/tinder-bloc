@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tinder/src/features/likes/presentation/people_loved_screen.dart';
 import 'package:tinder/src/themes/app_asset.dart';
 import 'package:tinder/src/widgets/logo_widget.dart';
 
@@ -22,12 +23,17 @@ class ExplorePeopleAppBarWidget extends StatelessWidget {
           ),
         ),
         const LogoWidget(),
-        Container(
-          width: 24,
-          height: 24,
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage(AppAsset.image('icon_notification.png')),
+        GestureDetector(
+          onTap: () {
+            Navigator.pushNamed(context, PeopleLovedScreen.routeName);
+          },
+          child: Container(
+            width: 24,
+            height: 24,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage(AppAsset.image('icon_notification.png')),
+              ),
             ),
           ),
         )

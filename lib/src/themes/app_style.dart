@@ -69,6 +69,18 @@ class AppTextStyle {
       AppColor.black,
     );
   }
+
+  static TextStyle grey60({
+    double fontSize = AppFontSize.f14,
+    FontWeight fontWeight = AppFontWeight.regular,
+  }) {
+    return _getTextStyle(
+      fontSize,
+      AppFontFamily.poppins,
+      fontWeight,
+      AppColor.grey60,
+    );
+  }
 }
 
 TextStyle _getTextStyle(
