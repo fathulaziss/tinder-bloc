@@ -4,6 +4,7 @@ import 'package:tinder/src/features/authentication/presentation/sign_up_screen.d
 import 'package:tinder/src/features/authentication/presentation/sign_up_upload_photo_screen.dart';
 import 'package:tinder/src/features/likes/presentation/explore_people_screen.dart';
 import 'package:tinder/src/features/likes/presentation/people_loved_screen.dart';
+import 'package:tinder/src/features/likes/presentation/people_profile_screen.dart';
 import 'package:tinder/src/themes/app_style.dart';
 
 class AppScreen extends StatelessWidget {
@@ -22,6 +23,7 @@ class AppScreen extends StatelessWidget {
             const SignUpUploadPhotoScreen(),
         ExplorePeopleScreen.routeName: (context) => const ExplorePeopleScreen(),
         PeopleLovedScreen.routeName: (context) => const PeopleLovedScreen(),
+        PeopleProfileScreen.routeName: (context) => const PeopleProfileScreen(),
       },
     );
   }
