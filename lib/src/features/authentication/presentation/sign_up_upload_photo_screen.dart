@@ -1,16 +1,36 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:tinder/src/features/likes/presentation/explore_people_screen.dart';
 import 'package:tinder/src/themes/app_font.dart';
 import 'package:tinder/src/themes/app_style.dart';
+import 'package:tinder/src/utils/image_picker_util.dart';
 import 'package:tinder/src/widgets/custom_button_widget.dart';
 import 'package:tinder/src/widgets/custom_text_button.dart';
 import 'package:tinder/src/widgets/logo_and_tagline_widget.dart';
 import 'package:tinder/src/widgets/upload_photo_widget.dart';
 
-class SignUpUploadPhotoScreen extends StatelessWidget {
+class SignUpUploadPhotoScreen extends StatefulWidget {
   const SignUpUploadPhotoScreen({super.key});
 
   static const String routeName = '/sign-up-upload-photo';
+
+  @override
+  State<SignUpUploadPhotoScreen> createState() =>
+      _SignUpUploadPhotoScreenState();
+}
+
+class _SignUpUploadPhotoScreenState extends State<SignUpUploadPhotoScreen> {
+  File? image;
+
+  Future<void> getImageProfile(GetImageFrom source) async {
+    final result = await ImagePickerUtil.getImage(source);
+    if (result != null) {
+      setState(() {
+        image = File(result.path);
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +42,36 @@ class SignUpUploadPhotoScreen extends StatelessWidget {
             children: [
               const LogoAndTaglineWidget(),
               AppSpace.vertical(50),
-              const UploadPhotoWidget(),
+              GestureDetector(
+                onTap: () {
+                  showModalBottomSheet(
+                    context: context,
+                    builder: (context) {
+                      return Container(
+                        padding: const EdgeInsets.all(24),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            IconButton(
+                              onPressed: () {
+                                getImageProfile(GetImageFrom.camera);
+                              },
+                              icon: const Icon(Icons.camera, size: 50),
+                            ),
+                            IconButton(
+                              onPressed: () {
+                                getImageProfile(GetImageFrom.gallery);
+                              },
+                              icon: const Icon(Icons.photo, size: 50),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  );
+                },
+                child: UploadPhotoWidget(image: image),
+              ),
               AppSpace.vertical(53),
               Text(
                 'Andi Mania',

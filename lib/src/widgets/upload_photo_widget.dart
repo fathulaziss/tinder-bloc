@@ -1,9 +1,13 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:tinder/src/themes/app_asset.dart';
 import 'package:tinder/src/themes/app_color.dart';
 
 class UploadPhotoWidget extends StatelessWidget {
-  const UploadPhotoWidget({super.key});
+  const UploadPhotoWidget({super.key, required this.image});
+
+  final File? image;
 
   @override
   Widget build(BuildContext context) {
@@ -24,10 +28,12 @@ class UploadPhotoWidget extends StatelessWidget {
           ),
           child: ClipRRect(
             borderRadius: BorderRadius.circular(100),
-            child: Image.asset(
-              AppAsset.image('profile_icon.png'),
-              fit: BoxFit.cover,
-            ),
+            child: image != null
+                ? Image.file(image!, fit: BoxFit.cover)
+                : Image.asset(
+                    AppAsset.image('profile_icon.png'),
+                    fit: BoxFit.cover,
+                  ),
           ),
         ),
         Positioned(
