@@ -26,12 +26,12 @@ class UserAccount {
     );
   }
 
-  final String fullname;
-  final String email;
-  final String password;
-  final String occupation;
-  final String age;
-  final String imageProfile;
+  String fullname;
+  String email;
+  String password;
+  String occupation;
+  String age;
+  String imageProfile;
 
   @override
   String toString() {

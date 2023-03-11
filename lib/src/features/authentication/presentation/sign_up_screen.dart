@@ -6,16 +6,16 @@ import 'package:tinder/src/widgets/custom_button_widget.dart';
 import 'package:tinder/src/widgets/custom_text_button.dart';
 import 'package:tinder/src/widgets/custom_text_field_widget.dart';
 
-class SingUpScreen extends StatefulWidget {
-  const SingUpScreen({super.key});
+class SignUpScreen extends StatefulWidget {
+  const SignUpScreen({super.key});
 
   static const String routeName = '/sign-up';
 
   @override
-  State<SingUpScreen> createState() => _SingUpScreenState();
+  State<SignUpScreen> createState() => _SignUpScreenState();
 }
 
-class _SingUpScreenState extends State<SingUpScreen> {
+class _SignUpScreenState extends State<SignUpScreen> {
   final nameController = TextEditingController();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
@@ -26,6 +26,26 @@ class _SingUpScreenState extends State<SingUpScreen> {
     emailController.dispose();
     passwordController.dispose();
     super.dispose();
+  }
+
+  String? validateForm() {
+    if (nameController.text.isEmpty ||
+        emailController.text.isEmpty ||
+        passwordController.text.isEmpty) {
+      return "Name or Email or Password can't be empty";
+    }
+
+    if (nameController.text.length < 4 ||
+        emailController.text.length < 4 ||
+        passwordController.text.length < 4) {
+      return 'Too short, minimum 4 characters';
+    }
+
+    if (!emailController.text.contains('@')) {
+      return 'Email invalid without @';
+    }
+
+    return null;
   }
 
   @override
@@ -57,7 +77,25 @@ class _SingUpScreenState extends State<SingUpScreen> {
               CustomButtonWidget(
                 title: 'Get Started',
                 onTap: () {
-                  Navigator.pushNamed(context, SingUpAgeJobScreen.routeName);
+                  final message = validateForm();
+                  if (message != null) {
+                    ScaffoldMessenger.of(context)
+                        .showSnackBar(SnackBar(content: Text(message)));
+                    return;
+                  }
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) {
+                        return SignUpAgeJobScreen(
+                          fullname: nameController.text,
+                          email: emailController.text,
+                          password: passwordController.text,
+                        );
+                      },
+                    ),
+                  );
+                  // Navigator.pushNamed(context, SingUpAgeJobScreen.routeName);
                 },
               ),
               AppSpace.vertical(20),

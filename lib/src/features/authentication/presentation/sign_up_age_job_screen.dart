@@ -1,20 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:tinder/src/features/authentication/domain/user_account.dart';
 import 'package:tinder/src/features/authentication/presentation/sign_up_upload_photo_screen.dart';
 import 'package:tinder/src/themes/app_style.dart';
 import 'package:tinder/src/widgets/banner_widget.dart';
 import 'package:tinder/src/widgets/custom_button_widget.dart';
 import 'package:tinder/src/widgets/custom_text_field_widget.dart';
 
-class SingUpAgeJobScreen extends StatefulWidget {
-  const SingUpAgeJobScreen({super.key});
+class SignUpAgeJobScreen extends StatefulWidget {
+  const SignUpAgeJobScreen({
+    super.key,
+    required this.fullname,
+    required this.email,
+    required this.password,
+  });
+
+  final String fullname;
+  final String email;
+  final String password;
 
   static const String routeName = '/sign-up-age-job';
 
   @override
-  State<SingUpAgeJobScreen> createState() => _SingUpAgeJobScreenState();
+  State<SignUpAgeJobScreen> createState() => _SignUpAgeJobScreenState();
 }
 
-class _SingUpAgeJobScreenState extends State<SingUpAgeJobScreen> {
+class _SignUpAgeJobScreenState extends State<SignUpAgeJobScreen> {
   final jobController = TextEditingController();
   final ageController = TextEditingController();
 
@@ -23,6 +33,14 @@ class _SingUpAgeJobScreenState extends State<SingUpAgeJobScreen> {
     jobController.clear();
     ageController.clear();
     super.dispose();
+  }
+
+  String? validateForm() {
+    if (jobController.text.isEmpty || ageController.text.isEmpty) {
+      return "Occupation or Age can't be empty";
+    }
+
+    return null;
   }
 
   @override
@@ -48,9 +66,23 @@ class _SingUpAgeJobScreenState extends State<SingUpAgeJobScreen> {
               CustomButtonWidget(
                 title: 'Continue Sign Up',
                 onTap: () {
+                  final message = validateForm();
+                  if (message != null) {
+                    ScaffoldMessenger.of(context)
+                        .showSnackBar(SnackBar(content: Text(message)));
+                    return;
+                  }
+                  final userAccount = UserAccount(
+                    fullname: widget.fullname,
+                    email: widget.email,
+                    password: widget.password,
+                    occupation: jobController.text,
+                    age: ageController.text,
+                  );
                   Navigator.pushNamed(
                     context,
                     SignUpUploadPhotoScreen.routeName,
+                    arguments: userAccount,
                   );
                 },
               )
