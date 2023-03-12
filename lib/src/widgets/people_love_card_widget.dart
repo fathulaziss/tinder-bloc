@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tinder/src/features/likes/domain/user.dart';
 import 'package:tinder/src/features/likes/presentation/people_profile_screen.dart';
 import 'package:tinder/src/themes/app_asset.dart';
 import 'package:tinder/src/themes/app_color.dart';
@@ -6,13 +7,19 @@ import 'package:tinder/src/themes/app_font.dart';
 import 'package:tinder/src/themes/app_style.dart';
 
 class PeopleLoveCardWidget extends StatelessWidget {
-  const PeopleLoveCardWidget({Key? key}) : super(key: key);
+  const PeopleLoveCardWidget({Key? key, required this.user}) : super(key: key);
+
+  final User user;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.pushNamed(context, PeopleProfileScreen.routeName);
+        Navigator.pushNamed(
+          context,
+          PeopleProfileScreen.routeName,
+          arguments: user,
+        );
       },
       child: Container(
         decoration: BoxDecoration(
@@ -29,18 +36,21 @@ class PeopleLoveCardWidget extends StatelessWidget {
               shape: BoxShape.circle,
               image: DecorationImage(
                 fit: BoxFit.cover,
-                image: AssetImage(AppAsset.image('people_love3_image.png')),
+                image: AssetImage(AppAsset.image(user.imagePath)),
               ),
             ),
           ),
           title: Text(
-            'Ismirada',
+            user.fullname,
             style: AppTextStyle.white(
               fontSize: AppFontSize.f20,
               fontWeight: AppFontWeight.semiBold,
             ),
           ),
-          subtitle: Text('22, Doctor ', style: AppTextStyle.grey60()),
+          subtitle: Text(
+            '${user.age}, ${user.occupation} ',
+            style: AppTextStyle.grey60(),
+          ),
         ),
       ),
     );

@@ -1,11 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:tinder/src/features/likes/domain/user.dart';
+import 'package:tinder/src/features/likes/presentation/explore_people_screen.dart';
 import 'package:tinder/src/themes/app_asset.dart';
 import 'package:tinder/src/themes/app_font.dart';
 import 'package:tinder/src/themes/app_style.dart';
 import 'package:tinder/src/widgets/match_button_widget.dart';
 
 class ProfileDetailImageWidget extends StatelessWidget {
-  const ProfileDetailImageWidget({Key? key}) : super(key: key);
+  const ProfileDetailImageWidget({
+    Key? key,
+    required this.user,
+  }) : super(key: key);
+
+  final User user;
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +24,7 @@ class ProfileDetailImageWidget extends StatelessWidget {
           decoration: BoxDecoration(
             image: DecorationImage(
               fit: BoxFit.cover,
-              image: AssetImage(AppAsset.image('people_love1_image.png')),
+              image: AssetImage(AppAsset.image(user.imagePath)),
             ),
           ),
         ),
@@ -29,7 +36,9 @@ class ProfileDetailImageWidget extends StatelessWidget {
               MatchButtonWidget(
                 dimension: 20,
                 iconPath: 'icon_arrow_left.png',
-                onTap: () {},
+                onTap: () {
+                  Navigator.pop(context);
+                },
               ),
               Text(
                 'Lover Profile\nDetail',
@@ -42,7 +51,13 @@ class ProfileDetailImageWidget extends StatelessWidget {
               MatchButtonWidget(
                 dimension: 20,
                 iconPath: 'icon_close_circle.png',
-                onTap: () {},
+                onTap: () {
+                  Navigator.pushNamedAndRemoveUntil(
+                    context,
+                    ExplorePeopleScreen.routeName,
+                    (route) => false,
+                  );
+                },
               )
             ],
           ),

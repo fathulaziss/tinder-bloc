@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:tinder/src/features/likes/domain/user.dart';
 import 'package:tinder/src/themes/app_font.dart';
 import 'package:tinder/src/themes/app_style.dart';
 
 class PeopleIdentityWidget extends StatelessWidget {
-  const PeopleIdentityWidget({Key? key}) : super(key: key);
+  const PeopleIdentityWidget({Key? key, required this.user}) : super(key: key);
+
+  final User user;
 
   @override
   Widget build(BuildContext context) {
@@ -13,16 +16,16 @@ class PeopleIdentityWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Shyna',
+            user.fullname,
             style: AppTextStyle.white(
               fontSize: AppFontSize.f28,
               fontWeight: AppFontWeight.semiBold,
             ),
           ),
-          Text('22, Lawyer', style: AppTextStyle.black()),
+          Text('${user.age}, ${user.occupation}', style: AppTextStyle.black()),
           AppSpace.vertical(16),
           Text(
-            'I love solving problem in terms of finance, business, and any case. With you, we will solve all world problems.',
+            user.description,
             style: AppTextStyle.white(),
           ),
           AppSpace.vertical(16),

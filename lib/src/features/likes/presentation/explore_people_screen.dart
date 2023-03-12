@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tinder/src/features/authentication/data/data_user_account_local.dart';
 import 'package:tinder/src/features/authentication/domain/user_account.dart';
-import 'package:tinder/src/features/likes/presentation/bloc/bloc/explore_people_bloc.dart';
+import 'package:tinder/src/features/likes/presentation/bloc/explore_people/explore_people_bloc.dart';
+import 'package:tinder/src/features/likes/presentation/bloc/people_loved/people_loved_bloc.dart';
 import 'package:tinder/src/themes/app_style.dart';
 import 'package:tinder/src/widgets/explore_people_app_bar_widget.dart';
 import 'package:tinder/src/widgets/explore_people_button_widget.dart';
@@ -69,6 +70,32 @@ class _ExplorePeopleScreenState extends State<ExplorePeopleScreen> {
                           child: AppinioSwiper(
                             controller: cardController,
                             cards: cards,
+                            direction: AppinioSwiperDirection.top,
+                            padding: EdgeInsets.zero,
+                            onSwipe: (
+                              int index,
+                              AppinioSwiperDirection direction,
+                            ) {
+                              if (direction == AppinioSwiperDirection.top) {
+                                ScaffoldMessenger.of(context)
+                                    .hideCurrentSnackBar();
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text(
+                                      'Yey, you matched with ${users[index].fullname}',
+                                    ),
+                                  ),
+                                );
+                              }
+
+                              if (direction != AppinioSwiperDirection.left &&
+                                  direction != AppinioSwiperDirection.right &&
+                                  direction != AppinioSwiperDirection.bottom) {
+                                context
+                                    .read<PeopleLovedBloc>()
+                                    .add(AddPeopleLoved(user: users[index]));
+                              }
+                            },
                             onEnd: () {
                               context
                                   .read<ExplorePeopleBloc>()
