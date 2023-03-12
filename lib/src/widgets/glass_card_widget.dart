@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:tinder/src/features/likes/domain/user.dart';
 import 'package:tinder/src/themes/app_asset.dart';
 import 'package:tinder/src/themes/app_font.dart';
 import 'package:tinder/src/themes/app_style.dart';
 
 class GlassCardWidget extends StatelessWidget {
-  const GlassCardWidget({
-    Key? key,
-  }) : super(key: key);
+  const GlassCardWidget({Key? key, required this.user}) : super(key: key);
+
+  final User user;
 
   @override
   Widget build(BuildContext context) {
@@ -29,14 +30,14 @@ class GlassCardWidget extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                'Sabrina Anho',
+                user.fullname,
                 style: AppTextStyle.white(
                   fontSize: AppFontSize.f20,
                   fontWeight: AppFontWeight.semiBold,
                 ),
               ),
               Text(
-                '22, Traveler',
+                '${user.age}, ${user.occupation}',
                 style: AppTextStyle.white(fontSize: AppFontSize.f14),
               ),
             ],

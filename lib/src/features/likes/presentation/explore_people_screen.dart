@@ -1,6 +1,9 @@
+import 'package:appinio_swiper/appinio_swiper.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tinder/src/features/authentication/data/data_user_account_local.dart';
 import 'package:tinder/src/features/authentication/domain/user_account.dart';
+import 'package:tinder/src/features/likes/presentation/bloc/bloc/explore_people_bloc.dart';
 import 'package:tinder/src/themes/app_style.dart';
 import 'package:tinder/src/widgets/explore_people_app_bar_widget.dart';
 import 'package:tinder/src/widgets/explore_people_button_widget.dart';
@@ -17,11 +20,19 @@ class ExplorePeopleScreen extends StatefulWidget {
 
 class _ExplorePeopleScreenState extends State<ExplorePeopleScreen> {
   UserAccount? userAccount;
+  final cardController = AppinioSwiperController();
 
   @override
   void initState() {
     super.initState();
+    context.read<ExplorePeopleBloc>().add(OnExplorePeopleEventCalled());
     getDataUserAccount();
+  }
+
+  @override
+  void dispose() {
+    cardController.dispose();
+    super.dispose();
   }
 
   Future<void> getDataUserAccount() async {
@@ -40,14 +51,40 @@ class _ExplorePeopleScreenState extends State<ExplorePeopleScreen> {
           children: [
             ExplorePeopleAppBarWidget(imagePath: userAccount?.imageProfile),
             AppSpace.vertical(50),
-            Expanded(
-              child: Column(
-                children: [
-                  const Expanded(child: MatchCardWidget()),
-                  AppSpace.vertical(50),
-                  const ExplorePeopleButtonWidget(),
-                ],
-              ),
+            BlocBuilder<ExplorePeopleBloc, ExplorePeopleState>(
+              builder: (context, state) {
+                if (state is ExplorePeopleLoading) {
+                  return const CircularProgressIndicator();
+                }
+                if (state is ExplorePeopleLoaded) {
+                  final users = state.result;
+                  final cards = <Widget>[];
+                  for (final user in users) {
+                    cards.add(MatchCardWidget(user: user));
+                  }
+                  return Expanded(
+                    child: Column(
+                      children: [
+                        Expanded(
+                          child: AppinioSwiper(
+                            controller: cardController,
+                            cards: cards,
+                            onEnd: () {
+                              context
+                                  .read<ExplorePeopleBloc>()
+                                  .add(OnExplorePeopleEventCalled());
+                            },
+                          ),
+                        ),
+                        AppSpace.vertical(50),
+                        ExplorePeopleButtonWidget(controller: cardController),
+                      ],
+                    ),
+                  );
+                }
+
+                return const SizedBox();
+              },
             ),
           ],
         ),
